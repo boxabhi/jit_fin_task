@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import  requests
+import json
 # Create your views here.
 
 
@@ -16,9 +17,25 @@ def get_user_details(request):
     username = request.GET.get('username', 'boxabhi')
     url = f'https://api.github.com/users/{username}/repos'
     
-    print(url)
-    data = requests.get(url)
-    print(data.text)
-    return JsonResponse({'payload' : data.json()})
+    
+    
+    fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=100'
+    fetch_repo = requests.get(fetch_repo_url)
+    
+    repo_payload = []
+    for fpu in fetch_repo.json():
+        repo_payload.append(fpu.get('name'))
+        
+    fetch_followers_url = f'https://api.github.com/users/{username}/followers?per_page=100'
+    fetch_followers = requests.get(fetch_followers_url)
+    followers_payload = []
+    
+    for ffu in fetch_followers.json():
+        followers_payload.append({'user' :ffu.get('login'), 'avatar_url' : ffu.get('avatar_url')})
+    
+    followers_payload = sorted(followers_payload , key=lambda i:i ['user'])    
+        
+    payload = {'repositories' : repo_payload ,'followers' : followers_payload }
+    return JsonResponse({'payload' : payload})
     
     

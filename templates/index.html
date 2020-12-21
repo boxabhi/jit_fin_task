@@ -1,84 +1,141 @@
 {% extends "base.html" %}
 {% block start %}
 
+<div id="app">
+    <div class="container mx-auto mt-5">
+        <div class="text-center">
+            <img src="https://1000logos.net/wp-content/uploads/2018/11/GitHub-logo.png" class="img-fluid img-responsive"
+                style="height: 200px;">
+        </div>
 
-<div class="container mx-auto mt-5">
-    <div class="text-center">
-        <img src="https://1000logos.net/wp-content/uploads/2018/11/GitHub-logo.png" class="img-fluid img-responsive"
-            style="height: 200px;">
-    </div>
 
 
-
-    <form id="" class="mx-auto">
-        <div class="col-md-6 mt-5  mx-auto">
-            <label>Search by Username</label>
-            <div class="input-group flex-nowrap">
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                    aria-describedby="addon-wrapping">
+        <form id="" class="mx-auto">
+            <div class="col-md-6 mt-5  mx-auto">
+                <label>Search by Username</label>
+                <div class="input-group flex-nowrap">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="addon-wrapping">
+                </div>
+                <button type="submit" class="btn btn-success mt-3">Search</button>
             </div>
-            <button type="submit" class="btn btn-success mt-3">Search</button>
+        </form>
+
+
+
+        <div class="shadow-sm p-4">
+            <div class="row ">
+                <div class="col-lg-5 text-center">
+                    <img src="https://avatars0.githubusercontent.com/u/23151289?v=4" class="rounded-circle"
+                        style="height:200px">
+                    <h3>Boxabhi</h3>
+                    <p>Username</p>
+
+                    <h4>Name - Abhijeet Gupta</h4>
+                    <p>A hard-working person who loves to write clean and scalable code using the latest tech stack.
+                        Always
+                        hungry for learning new things.</p>
+                    <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
+                    <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
+
+                    <ul class="nav nav-tabs media-tabs nav-justified" role="tablist" v-if="response">
+
+                        <li class="nav-item" v-for="(follower,index) in response.followers" :key="index">
+                            <a class="nav-link" href="#" data-toggle="tab" role="tab">
+                                <div class="media align-items-center">
+                                    <!-- <div class="media-tab-media box-shadow-0 mr-3"><img :src="follower.avatar_url"
+                                            alt="Profile image"></div> -->
+                                    <div class="media-body">
+                                        
+                                        <h6 class="media-tab-title text-nowrap mb-0">[[follower.user]]</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+
+
+                </div>
+                <div class="col-lg-2 ">
+
+                    <div class="vl"></div>
+                </div>
+                <div class="col-lg-5 ">
+                    <img src="https://avatars0.githubusercontent.com/u/23151289?v=4" class="rounded-circle"
+                        style="height:200px">
+                    <h3>Boxabhi</h3>
+                    <p>Username</p>
+
+                    <h4>Name - Abhijeet Gupta</h4>
+                    <p>A hard-working person who loves to write clean and scalable code using the latest tech stack.
+                        Always
+                        hungry for learning new things.</p>
+                    <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
+                    <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
+
+
+                </div>
+
+            </div>
+
+            <ul class="list-group mt-5" v-if="response">
+                <li class="list-group-item active ">Repositories for users
+                </li>
+
+                <li class="list-group-item " v-for="(repo,index) in response.repositories" :key="index">[[repo]]
+                </li>
+
+            </ul>
+
+
+
+
+
         </div>
-    </form>
-
-
-    
-    <div class="shadow-sm p-4">
-        <div class="row ">
-            <div class="col-lg-5 text-center">
-        <img src="https://avatars0.githubusercontent.com/u/23151289?v=4"  class="rounded-circle" style="height:200px">
-        <h3>Boxabhi</h3>
-        <p>Username</p>
-
-        <h4>Name - Abhijeet Gupta</h4>
-        <p>A hard-working person who loves to write clean and scalable code using the latest tech stack. Always hungry for learning new things.</p>
-        <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
-        <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
-
-        
     </div>
-    <div class="col-lg-2 ">
-
-    <div class="vl"></div>
-    </div>
-    <div class="col-lg-5 ">
-        <img src="https://avatars0.githubusercontent.com/u/23151289?v=4"  class="rounded-circle" style="height:200px">
-        <h3>Boxabhi</h3>
-        <p>Username</p>
-
-        <h4>Name - Abhijeet Gupta</h4>
-        <p>A hard-working person who loves to write clean and scalable code using the latest tech stack. Always hungry for learning new things.</p>
-        <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
-        <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
-
-       
-        </div>
-   
-    </div>
-
-    <ul class="list-group mt-5">
-        <li class="list-group-item active">User Repositories</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-      </ul>
-
-
-
-
-
 </div>
-</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            response: null
+        },
+        methods: {
+            greet: function (name) {
+                console.log('Hello from ' + name + '!')
+            },
+
+            async getData() {
+                await fetch('/api')
+                    .then(res => res.json())
+                    .then(result => {
+                     
+                        this.response = result.payload
+                        console.log(this.response)
+                    })
+            }
+
+        },
+        mounted() {
+            this.getData()
+        }
+    });
+</script>
 
 
 
 <style>
     .vl {
-      border-left: 6px solid rgb(74, 75, 74);
-      height: 500px;
+        border-left: 6px solid rgb(74, 75, 74);
+        height: 500px;
     }
-    </style>
-    
+</style>
+
 
 {% endblock %}
