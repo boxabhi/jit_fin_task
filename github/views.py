@@ -1,3 +1,4 @@
+  
 from django.shortcuts import render
 from django.http import JsonResponse
 import  requests
@@ -16,9 +17,7 @@ def index(request):
 def get_user_details(request):
     username = request.GET.get('username', 'boxabhi')
     url = f'https://api.github.com/users/{username}/repos'
-    
-    
-    
+        
     fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=500&sort=created'
     fetch_repo = requests.get(fetch_repo_url)
     
@@ -34,9 +33,8 @@ def get_user_details(request):
         followers_payload.append(ffu.get('login'))
                                  
     followers_payload = sorted(followers_payload,key = str.lower)    
-    #followers_payload.sort()
+
         
     payload = {'repositories' : repo_payload ,'followers' : followers_payload }
     return JsonResponse({'payload' : payload})
-    
     
