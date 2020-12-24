@@ -19,7 +19,7 @@ def get_user_details(request):
     
     
     
-    fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=100'
+    fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=500&sort=created'
     fetch_repo = requests.get(fetch_repo_url)
     
     repo_payload = []
@@ -31,9 +31,10 @@ def get_user_details(request):
     followers_payload = []
     
     for ffu in fetch_followers.json():
-        followers_payload.append({'user' :ffu.get('login'), 'avatar_url' : ffu.get('avatar_url')})
-    
-    followers_payload = sorted(followers_payload , key=lambda i:i ['user'])    
+        followers_payload.append(ffu.get('login'))
+                                 
+    followers_payload = sorted(followers_payload,key = str.lower)    
+    #followers_payload.sort()
         
     payload = {'repositories' : repo_payload ,'followers' : followers_payload }
     return JsonResponse({'payload' : payload})
