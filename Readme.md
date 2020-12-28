@@ -1,6 +1,10 @@
-pip install requirements.txt
+ <code>
+    pip install requirements.txt
+    python manage.py runsever
 
-python manage.py runsever
+    Live URL - https://jitfin.herokuapp.com/
+
+ </code>
 
 Add querystring to the url username
 
@@ -64,11 +68,7 @@ Add querystring to the url username
                     }
                 </code>
 
-             </code>
- 
-             
-            
-        </pre>
+
 <hr>
 
 
