@@ -5,137 +5,89 @@
     <div class="container mx-auto mt-5">
         <div class="text-center">
             <img src="https://1000logos.net/wp-content/uploads/2018/11/GitHub-logo.png" class="img-fluid img-responsive"
-                style="height: 200px;">
+                style="height: 100px;">
         </div>
 
 
+        <div class="container">
+            <hr>
+            <pre>
+                <p>Task 1</p>
+            <code >
+               API for getting user info | <b>add query string username</b>   <span class="badge badge-primary">ACCEPTS GET REQUEST</span>
+               <kbd >/get?username={YOUR USERNAME}</kbd>
+            </code>
+            </pre>
 
-        <form id="" class="mx-auto">
-            <div class="col-md-6 mt-5  mx-auto">
-                <label>Search by Username</label>
-                <div class="input-group flex-nowrap">
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                        aria-describedby="addon-wrapping">
-                </div>
-                <button type="submit" class="btn btn-success mt-3">Search</button>
-            </div>
-        </form>
+            <hr>
 
+            <pre>
+                <p>Task 2</p>
+                <code class="">
+                   API for getting followers of a user | <b>add query string username</b>   <span class="badge badge-primary">ACCEPTS GET REQUEST</span>
+                   <kbd >/followers?username={YOUR USERNAME}</kbd>
+                </code>
+                </pre>
 
-
-        <div class="shadow-sm p-4">
-            <div class="row ">
-                <div class="col-lg-5 text-center">
-                    <img src="https://avatars0.githubusercontent.com/u/23151289?v=4" class="rounded-circle"
-                        style="height:200px">
-                    <h3>Boxabhi</h3>
-                    <p>Username</p>
-
-                    <h4>Name - Abhijeet Gupta</h4>
-                    <p>A hard-working person who loves to write clean and scalable code using the latest tech stack.
-                        Always
-                        hungry for learning new things.</p>
-                    <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
-                    <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
-
-                    <ul class="nav nav-tabs media-tabs nav-justified" role="tablist" v-if="response">
-
-                        <li class="nav-item" v-for="(follower,index) in response.followers" :key="index">
-                            <a class="nav-link" href="#" data-toggle="tab" role="tab">
-                                <div class="media align-items-center">
-                                    <!-- <div class="media-tab-media box-shadow-0 mr-3"><img :src="follower.avatar_url"
-                                            alt="Profile image"></div> -->
-                                    <div class="media-body">
-                                        
-                                        <h6 class="media-tab-title text-nowrap mb-0">[[follower.user]]</h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+            <hr>
+            <pre>
+                <p>Task 3</p>
+                <code class="">
+                   API for getting followers of a user | <b>add query string username</b>   <span class="badge badge-primary">ACCEPTS GET REQUEST</span>
+                   <kbd >/followers?username={YOUR USERNAME}</kbd>
+                </code>
+                </pre>
 
 
+                <hr>
 
-                </div>
-                <div class="col-lg-2 ">
+            <pre>
+                <p>Task 4</p>
+                <code >API for creating new repository for a user  <span class="badge badge-danger">ACCEPTS POST REQUEST</span>
+                <kbd >/create/</kbd>
+                <code>
+                    {
+                    "token" : "{YOUR TOKEN}" , 
+                    "name" : "{REPO NAME YOU WANT TO CREATE}" 
+                    }
+             </code>
+             </pre>
 
-                    <div class="vl"></div>
-                </div>
-                <div class="col-lg-5 ">
-                    <img src="https://avatars0.githubusercontent.com/u/23151289?v=4" class="rounded-circle"
-                        style="height:200px">
-                    <h3>Boxabhi</h3>
-                    <p>Username</p>
+             <hr>
+             <pre>
+                <p>Task 5</p>
+             <code >API for update description of a repository. <span class="badge badge-success">ACCEPTS PATCH REQUEST</span>
+                <kbd >/update/</kbd>
+                <code>
+                    {
+                    "token" : "{YOUR TOKEN}" , 
+                    "name" : "{USERNAME}" ,
+                    "repo" : "{REPO NAME}" ,
+                    "owner" : "{OWNER NAME}" ,
+                    "description" : "{DESCRIPTION}"
+                    }
+                </code>
 
-                    <h4>Name - Abhijeet Gupta</h4>
-                    <p>A hard-working person who loves to write clean and scalable code using the latest tech stack.
-                        Always
-                        hungry for learning new things.</p>
-                    <p>Total Repo - <span class="badge badge-primary">Primary</span></p>
-                    <p>Total Followers - <span class="badge badge-primary">Primary</span></p>
-
-
-                </div>
-
-            </div>
-
-            <ul class="list-group mt-5" v-if="response">
-                <li class="list-group-item active ">Repositories for users
-                </li>
-
-                <li class="list-group-item " v-for="(repo,index) in response.repositories" :key="index">[[repo]]
-                </li>
-
-            </ul>
-
+             </code>
+ 
+             
+            
+        </pre>
+        <hr>
 
 
 
 
         </div>
+
+
+
+
     </div>
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-<script>
-    var app = new Vue({
-        delimiters: ['[[', ']]'],
-        el: '#app',
-        data: {
-            message: 'Hello Vue!',
-            response: null
-        },
-        methods: {
-            greet: function (name) {
-                console.log('Hello from ' + name + '!')
-            },
 
-            async getData() {
-                await fetch('/api')
-                    .then(res => res.json())
-                    .then(result => {
-                     
-                        this.response = result.payload
-                        console.log(this.response)
-                    })
-            }
-
-        },
-        mounted() {
-            this.getData()
-        }
-    });
-</script>
-
-
-
-<style>
-    .vl {
-        border-left: 6px solid rgb(74, 75, 74);
-        height: 500px;
-    }
-</style>
 
 
 {% endblock %}
