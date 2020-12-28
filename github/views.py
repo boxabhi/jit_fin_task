@@ -30,7 +30,7 @@ def get_user_details(request):
     for fpu in fetch_repo.json():
         repo_payload.append(fpu.get('name'))
     payload = {'repositories' : repo_payload }
-    return JsonResponse({'payload' : payload})
+    return JsonResponse(payload)
     
 
 def get_user_followers(request):
