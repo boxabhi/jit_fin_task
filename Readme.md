@@ -30,8 +30,8 @@
 <pre>
                 <p>Task 3</p>
                 <code class="">
-                   API for getting followers of a user | <b>add query string username</b>   <span class="badge badge-primary">ACCEPTS GET REQUEST</span>
-                   <kbd >/followers?username={YOUR USERNAME}</kbd>
+                   API for getting highest followers of a user | <b>add query string username</b>   <span class="badge badge-primary">ACCEPTS GET REQUEST</span>
+                   <kbd >/highest?username={YOUR USERNAME}</kbd>
                 </code>
                 </pre>
 
