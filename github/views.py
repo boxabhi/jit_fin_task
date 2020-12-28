@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import  requests
 import json
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -14,27 +15,98 @@ def index(request):
 #url = https://api.github.com/users/USERNAME/repos
 #url = https://api.github.com/users/boxabhi/repos?direction=dsc
 #url = https://api.github.com/users/boxabhi/followers
+#url = f'https://api.github.com/users/{username}/repos'
+
+
 def get_user_details(request):
-    username = request.GET.get('username', 'boxabhi')
-    url = f'https://api.github.com/users/{username}/repos'
-        
-    fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=500&sort=created'
-    fetch_repo = requests.get(fetch_repo_url)
+    username = request.GET.get('username', None)
+    if username is None:
+        return JsonResponse({'error' : 'username is required'})
     
+    fetch_repo_url = f'https://api.github.com/users/{username}/repos?per_page=100&sort=created'
+    fetch_repo = requests.get(fetch_repo_url)
     repo_payload = []
     for fpu in fetch_repo.json():
         repo_payload.append(fpu.get('name'))
-        
+    payload = {'repositories' : repo_payload }
+    return JsonResponse({'payload' : payload})
+    
+
+def get_user_followers(request):
+    username = request.GET.get('username', None)
+    if username is None:
+        return JsonResponse({'error' : 'username is required'})
+    
     fetch_followers_url = f'https://api.github.com/users/{username}/followers?per_page=100'
     fetch_followers = requests.get(fetch_followers_url)
     followers_payload = []
-    
     for ffu in fetch_followers.json():
         followers_payload.append(ffu.get('login'))
-                                 
-    followers_payload = sorted(followers_payload,key = str.lower)    
+    
+    followers_payload = sorted(followers_payload,key = str.lower)            
+    payload = {'followers' : followers_payload }
+    
 
+
+
+    
+
+@csrf_exempt
+def create_new_repository(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        if data.get('token') is None:
+            return JsonResponse({'error' : 'token is required' , 'message' : 'You can get your token On your Github account: go to Settings -> Developer Settings -> Personal Access Token Under OAuth Apps. Now, Generate a New Access token'})
         
-    payload = {'repositories' : repo_payload ,'followers' : followers_payload }
-    return JsonResponse({'payload' : payload})
+        if data.get('name') is None:
+            return JsonResponse({'error' : 'name is required'})
+        
+        url = 'https://api.github.com/user/repos'
+        body = {'name' : data.get('name')}
+        headers = {'Authorization': f"token {data.get('token')}"}
+
+        result = requests.post(url , data=json.dumps(body) , headers=headers)
+        payload = result.json()
+        
+        if payload.get('name'):
+            return JsonResponse({'message' : 'github repo created' , 'url' : 'https://github.com/' + payload.get('full_name') })
+        else:
+            return JsonResponse({'error' : 'something went wrong','message' : 'something went wrong may be repo already exists or token error'})
+            
+    return JsonResponse({'error' : 'method not allowed'})
+    
+@csrf_exempt
+def update_repository_description(request):
+    
+    if request.method == 'PATCH':
+        data = json.loads(request.body)
+        if data.get('token') is None:
+            return JsonResponse({'error' : 'token is required'})
+        
+        if data.get('repo') is None:
+            return JsonResponse({'error' : 'repo is required'})
+        
+        if data.get('owner') is None:
+            return JsonResponse({'error' : 'owner is required'})
+        
+        if data.get('name') is None:
+            return JsonResponse({'error' : 'name is required'})
+        
+        if data.get('description') is None:
+            return JsonResponse({'error' : 'a short description is required'})
+    
+
+        url = f"https://api.github.com/repos/{data.get('owner')}/{data.get('repo')}"
+        body = {'name' : data.get('name'), 'description' : data.get('description')}
+        headers = {'Authorization': f"token {data.get('token')}"}
+        
+        result = requests.patch(url , data=json.dumps(body) , headers=headers)
+        payload = result.json()
+
+        return JsonResponse({'message' : 'api responded with', 'payload' : payload})
+
+
+    return JsonResponse({'error' : 'method not allowed'})
+
     
