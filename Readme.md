@@ -1,8 +1,9 @@
  <code>
     pip install requirements.txt
+    <br>
     python manage.py runsever
 
-    Live URL - https://jitfin.herokuapp.com/
+    <b>Live URL - https://jitfin.herokuapp.com/</b>
 
  </code>
 
