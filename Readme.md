@@ -42,6 +42,9 @@
                 <p>Task 4</p>
                 <code >API for creating new repository for a user  <span class="badge badge-danger">ACCEPTS POST REQUEST</span>
                 <kbd >/create/</kbd>
+                You can get your token On your Github account:
+                    go to Settings -> Developer Settings -> Personal Access Token Under OAuth Apps.
+                    Now, Generate a New Access token
                 <code>
                     {
                     "token" : "{YOUR TOKEN}" , 
