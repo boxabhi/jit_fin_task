@@ -4,7 +4,8 @@ from django.http import JsonResponse
 import  requests
 import json
 from django.views.decorators.csrf import csrf_exempt
-# Create your views here.
+from .helpers import return_follower_list
+
 
 
 def index(request):
@@ -46,8 +47,41 @@ def get_user_followers(request):
     followers_payload = sorted(followers_payload,key = str.lower)            
     payload = {'followers' : followers_payload }
     
+    
+    
 
+def get_highest_follower(request):
+    username = request.GET.get('username', None)
+    
+    if username is None:
+        return JsonResponse({'error': 'username is required'})
+    
+    list_of_user_followers = return_follower_list(username)
 
+    if len(list_of_user_followers) <= 0:
+        return JsonResponse({'message': 'user has no followers'})
+    
+    
+    for lf in list_of_user_followers:
+        lf['count'] = return_follower_list(lf['follower'] , True)
+        
+        
+    
+    max_follower = 0
+    follower_name = None
+    for lf in list_of_user_followers:
+        if max_follower < lf['count']:
+            max_follower = lf['count']
+            follower_name = lf['follower']
+    
+    if follower_name is None:
+        return JsonResponse({'message': 'every follower has zero follower'})
+    
+    return JsonResponse({'message' : 'person has highest number of followers' , 'name' : follower_name , 'total_follower' : max_follower})
+    
+    
+    
+    
 
     
 
