@@ -3,13 +3,9 @@
     <br>
     python manage.py runsever
 
-    <b>Live URL - https://jitfin.herokuapp.com/</b>
+    ##Live URL - https://jitfin.herokuapp.com/
 
  </code>
-
-Add querystring to the url username
-
-/?username={githubusername}
 
 <hr>
 <pre>
